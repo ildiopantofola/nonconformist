@@ -219,7 +219,9 @@ class IcpClassifier(BaseIcp, ClassifierMixin):
 			prediction sets.
 		"""
 		# TODO: if x == self.last_x ...
-		n_test_objects = x.shape[0]
+		#n_test_objects = x.shape[0]
+        n_test_objects = x[0].shape[0] if type(x) is list else x.shape[0] #fix for multiinput model
+		
 		p = np.zeros((n_test_objects, self.classes.size))
 
 		ncal_ngt_neq = self._get_stats(x)
@@ -237,10 +239,11 @@ class IcpClassifier(BaseIcp, ClassifierMixin):
 			return p
 
 	def _get_stats(self, x):
-		n_test_objects = x.shape[0]
+		#n_test_objects = x.shape[0]
+        n_test_objects = x[0].shape[0] if type(x) is list else x.shape[0] #fix for multiinput model
 		ncal_ngt_neq = np.zeros((n_test_objects, self.classes.size, 3))
 		for i, c in enumerate(self.classes):
-			test_class = np.zeros(x.shape[0], dtype=self.classes.dtype)
+			test_class = np.zeros(n_test_objects, dtype=self.classes.dtype)
 			test_class.fill(c)
 
 			# TODO: maybe calculate p-values using cython or similar
@@ -384,13 +387,14 @@ class IcpRegressor(BaseIcp, RegressorMixin):
 		n_significance = (99 if significance is None
 		                  else np.array(significance).size)
 
+        n_test_objects = x[0].shape[0] if type(x) is list else x.shape[0] #fix for multiinput model
 		if n_significance > 1:
-			prediction = np.zeros((x.shape[0], 2, n_significance))
+			prediction = np.zeros((n_test_objects, 2, n_significance))
 		else:
-			prediction = np.zeros((x.shape[0], 2))
+			prediction = np.zeros((n_test_objects, 2))
 
 		condition_map = np.array([self.condition((x[i, :], None))
-		                          for i in range(x.shape[0])])
+		                          for i in range(n_test_objects)])
 
 		for condition in self.categories:
 			idx = condition_map == condition
