@@ -220,7 +220,7 @@ class IcpClassifier(BaseIcp, ClassifierMixin):
 		"""
 		# TODO: if x == self.last_x ...
 		#n_test_objects = x.shape[0]
-        n_test_objects = x[0].shape[0] if type(x) is list else x.shape[0] #fix for multiinput model
+        	n_test_objects = x[0].shape[0] if type(x) is list else x.shape[0] #fix for multiinput model
 		
 		p = np.zeros((n_test_objects, self.classes.size))
 
