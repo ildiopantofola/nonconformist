@@ -240,7 +240,7 @@ class IcpClassifier(BaseIcp, ClassifierMixin):
 
 	def _get_stats(self, x):
 		#n_test_objects = x.shape[0]
-        n_test_objects = x[0].shape[0] if type(x) is list else x.shape[0] #fix for multiinput model
+        	n_test_objects = x[0].shape[0] if type(x) is list else x.shape[0] #fix for multiinput model
 		ncal_ngt_neq = np.zeros((n_test_objects, self.classes.size, 3))
 		for i, c in enumerate(self.classes):
 			test_class = np.zeros(n_test_objects, dtype=self.classes.dtype)
