@@ -386,8 +386,8 @@ class IcpRegressor(BaseIcp, RegressorMixin):
 
 		n_significance = (99 if significance is None
 		                  else np.array(significance).size)
-
-        n_test_objects = x[0].shape[0] if type(x) is list else x.shape[0] #fix for multiinput model
+		
+		n_test_objects = x[0].shape[0] if type(x) is list else x.shape[0] #fix for multiinput model
 		if n_significance > 1:
 			prediction = np.zeros((n_test_objects, 2, n_significance))
 		else:
