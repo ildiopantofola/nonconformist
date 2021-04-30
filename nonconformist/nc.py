@@ -364,7 +364,11 @@ class BaseModelNc(BaseScorer):
 			Nonconformity scores of samples.
 		"""
 		prediction = self.model.predict(x)
-		n_test = x.shape[0]
+		#dual channel cnn fix
+		if type(x) is list:
+			n_test = x[0].shape[0]
+		else:
+			n_test = x.shape[0]
 		if self.normalizer is not None:
 			norm = self.normalizer.score(x) + self.beta
 		else:
