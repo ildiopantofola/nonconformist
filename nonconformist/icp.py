@@ -252,7 +252,10 @@ class IcpClassifier(BaseIcp, ClassifierMixin):
 			# TODO: nc_function.calc_nc should take X * {y1, y2, ... ,yn}
 			test_nc_scores = self.nc_function.score(x, test_class)
 			for j, nc in enumerate(test_nc_scores):
-				cal_scores = self.cal_scores[self.condition((x[j, :], c))][::-1]
+				if type(x) is list:
+					cal_scores = self.cal_scores[self.condition((x[j:], c))][::-1]
+				else:
+					cal_scores = self.cal_scores[self.condition((x[j, :], c))][::-1]
 				n_cal = cal_scores.size
 
 				idx_left = np.searchsorted(cal_scores, nc, 'left')
